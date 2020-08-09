@@ -59,6 +59,6 @@ The National Center for Education Statistics (NCES) is the primary federal entit
 **Source:** Public domains; USPTO, SEC.gov, NASDAQ IPO filings, open-source news, twitter. <br>
 **Observations/features:** Data would long-text/unstructured format of company patent filings, financials from preIPO filings, news articles from public news outlets including Twitter.
 
-**Summary:** Using the features provide within the data described above, use NLP and RNN to produce sentiment analysis and establish a model that can predict whether or not a given IPO will move up or down on the day it debuts on NASDAQ exchange. This project would be a lot of fun because has a lot of variables that would require extensive data scraping from multiple sources and entails developing 2 predictive models, 1) sentiment analysis predictor 2) IPO debut up or down. I imagine sentiment analysis itself can drastically impact the up/down predictive model. 
+**Summary:** Using the features provide within the data described above, use NLP and RNN to produce sentiment analysis and establish a model that can predict whether or not a given IPO will move up or down on the day it debuts on NASDAQ exchange. This project has several challenges since the features needed require extensive data scraping from multiple sources and entails developing 2 predictive models, 1) sentiment analysis predictor 2) IPO debut up or down. I imagine sentiment analysis itself can drastically impact the up/down predictive model. 
 
 -----------------
