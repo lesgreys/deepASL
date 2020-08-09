@@ -8,8 +8,10 @@ Ideas are listed in order of data accesibility within the timeframe of the proje
 3: Unlikely Accessible
 
 ### 1 . Data Easily Accessible 
-#### Predicting an up or down market day on S&P500. <br>
+
 -----------------
+#### Predicting an up or down market day on S&P500. <br>
+
 **Prediction type:** Categorical<br>
 **Data type:** Timeseries<br>
 **Source:** Yahoo Finance API & Open Source Finance Sites<br>
@@ -17,6 +19,7 @@ Ideas are listed in order of data accesibility within the timeframe of the proje
 
 **Summary:** Using differente measures of the timeseries data for the US Markets Major indices, using logistic regression or NN ML, predict if the following open market day will result in up or down day. I would also implement technical analysis into predictions given that major institutional investors use algorithimic trading and use TA as trigger points for executing trades. Overall, considering stock market predictions tend to follow the equivalence of flipping a coin, a model that can predict with 60% accuracy would be considered a success given that I would be able to execute an investment strategy that would result in an incremental net gain.
 
+-----------------
 #### Predict if a college student will graduate or not.
 **Prediction type:** Categorical<br>
 **Data type:** Stationary<br>
@@ -32,7 +35,11 @@ The National Center for Education Statistics (NCES) is the primary federal entit
 
 **Summary:** Using the features provide within the data described above, using Logistic, RF, GradientBoost ML, predict whether a given student would graduate college or not. This would be a fun personal project considering my personal struggles with the education system. Ideally, I would love to use this to engage students that are at risk of not graduating and assist where necessary to ensure successful educational experience. 
 
+-----------------
+
 ### 2. Somewhat Accessible 
+
+-----------------
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
 **Data type:** Stationary/Images<br>
@@ -41,7 +48,11 @@ The National Center for Education Statistics (NCES) is the primary federal entit
 
 **Summary:** Using the features provide within the data described above, using Neural Nets/Image Processing predict what letter of the alphabet is displayed in the image. Being raised by deaf parents I have an intimate relationship with the need for ASL to be more interpretable for the masses. This project will be broken down into distinct phases intended to tackle real-world issues for the deaf community. This phase will focus on developing a basic model that accurately predicts what letter of the alphabet a person is signing.
 
+-----------------
+
 ### 3. Unlikely Accessible 
+
+-----------------
 #### Predict if company IPO will go up or down on NASDAQ.
 **Prediction type:** Categorical<br>
 **Data type:** Stationary (not timeseries because a company has not started trading)<br>
@@ -50,4 +61,4 @@ The National Center for Education Statistics (NCES) is the primary federal entit
 
 **Summary:** Using the features provide within the data described above, use NLP and RNN to produce sentiment analysis and establish a model that can predict whether or not a given IPO will move up or down on the day it debuts on NASDAQ exchange. This project would be a lot of fun because has a lot of variables that would require extensive data scraping from multiple sources and entails developing 2 predictive models, 1) sentiment analysis predictor 2) IPO debut up or down. I imagine sentiment analysis itself can drastically impact the up/down predictive model. 
 
-
+-----------------
