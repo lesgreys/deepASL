@@ -7,6 +7,8 @@ Ideas are listed in order of data accesibility within the timeframe of the proje
 2: Somewhat Accessible
 3: Unlikely Accessible
 
+-----------------
+
 ### 1 . Data Easily Accessible 
 
 -----------------
