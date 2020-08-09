@@ -1,7 +1,5 @@
 # Capstone 2 Proposal:
 
-Place holder for capstone 2 proposal:
-
 Ideas are listed in order of data accesibility within the timeframe of the project:
 1: Easily Accessible
 2: Somewhat Accessible
