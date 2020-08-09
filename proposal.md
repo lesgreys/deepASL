@@ -9,6 +9,7 @@ Ideas are listed in order of data accesibility within the timeframe of the proje
 
 ### 1 . Data Easily Accessible 
 #### Predicting an up or down market day on S&P500. <br>
+-----------------
 **Prediction type:** Categorical<br>
 **Data type:** Timeseries<br>
 **Source:** Yahoo Finance API & Open Source Finance Sites<br>
