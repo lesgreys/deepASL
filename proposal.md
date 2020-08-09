@@ -40,7 +40,7 @@ The National Center for Education Statistics (NCES) is the primary federal entit
 
 **Summary:** Using the features provide within the data described above, using Neural Nets/Image Processing predict what letter of the alphabet is displayed in the image. Being raised by deaf parents I have an intimate relationship with the need for ASL to be more interpretable for the masses. This project will be broken down into distinct phases intended to tackle real-world issues for the deaf community. This phase will focus on developing a basic model that accurately predicts what letter of the alphabet a person is signing.
 
-### 2. Somewhat Accessible 
+### 3. Unlikely Accessible 
 #### Predict if company IPO will go up or down on NASDAQ.
 **Prediction type:** Categorical<br>
 **Data type:** Stationary (not timeseries because a company has not started trading)<br>
