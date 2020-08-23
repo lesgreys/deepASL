@@ -1,4 +1,10 @@
 # The ASL Project
+Applying machine learning techniques and convolutional neural nets to classify images of the American Sign Language (ASL) alphabet. This project contains several phases with long-term goals for real-world deployment. The intent is to have each subsequent phase build upon the previous phase. 
+
+![helloASL](images/helloasl2.jpg)
+
+**TL;DR**
+
 
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
