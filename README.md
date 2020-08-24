@@ -20,6 +20,7 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 
 
 
+
 ## Daily Journal Entry
 **DAY 1:**
 - wrote script to organize the train, validation, and test data into relative folders using os library. Became familiar with os functions for future use. 
@@ -46,9 +47,19 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 - compiled the model using the following:
     * optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'
 - finally I fit the model and used epoch=2 and the results were TERRIBLE!! (batch_size was 100)
+- **1st attempt:**
+    RESULTS:
     * Epoch 1/2 60/60 - 246s 4s/step - loss: nan - accuracy: 0.0530 - val_loss: nan - val_accuracy: 0.0536
     * Epoch 2/2 60/60 - 249s 4s/step - loss: nan - accuracy: 0.0539 - val_loss: nan - val_accuracy: 0.0536
-
+- **2nd attempt:**
+    * changed all Conv2D layers kernel_size=(2,2)
+    * changed 2nd dense layer activation='softmax'
+    RESULTS:
+    * 60/60 - 118s 2s/step - loss: 11.0343 - accuracy: 0.0525 - val_loss: 3.1642 - val_accuracy: 0.0536
+    60/60 - 118s 2s/step - loss: 3.1604 - accuracy: 0.0500 - val_loss: 3.1510 - val_accuracy: 0.0536
+-**3rd attempt:**
+    * changed epoch to 5, did not yield different results. Exactly the same val_accuracy with slight decrease in loss.   
+- Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 
 
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
