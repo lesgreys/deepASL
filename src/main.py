@@ -7,6 +7,7 @@ from tensorflow.keras.layers import Activation, Dense, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics  import categorical_crossentropy
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras import preprocessing
 from sklearn.metrics import confusion_matrix
 
 import itertools
@@ -24,33 +25,75 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 #sudo code
 # %%
-alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-alpha2 = ['A','B']
-os.chdir('../data/TrainData')
-if os.path.isdir('train/A') is False:
-    os.makedirs('train/A')
+def file_manager(main_dir, create_path, class_list, num_random_files):
+    """organizes files into desired directory structure for train/valid/test"""
+
+    os.chdir(str(main_dir))
+    for class_ in class_list:
+        if os.path.isdir(str(create_path)+str(class_)) is False:
+            os.makedirs(str(create_path)+str(class_))
 
 
-    for c in random.sample(glob.glob('A*'), 320):
-        shutil.move(c, 'train/A')
-# %%
-trail_path = '../data/TrainData/train'
-# %%
-trail_path
-# %%
-trail_batch = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input) \
-    .flow_from_directory(directory=trail_path, target_size=(224,224), classes=['A'], batch_size=10,color_mode='grayscale')
-# %%
-imgs= next(trail_batch)
-# %%
-def plotImages(images_arr):
-    fig, axes = plt.subplots(1,10, figsize=(20,20))
+            for c in random.sample(glob.glob(str(class_)+'*'), num_random_files):
+                shutil.move(c, str(create_path)+str(class_))
+
+def img_load():
+    pass
+
+def plotImages(images_arr, batch_size):
+    fig, axes = plt.subplots(1,batch_size, figsize=(20,20))
     axes = axes.flatten()
     for img, ax in zip(images_arr, axes):
         ax.imshow(img)
         ax.axis('off')
     plt.tight_layout()
     plt.show()
+
+def get_imlist(path,end_char):
+  """  Returns a list of filenames for
+    all png images in a directory. """
+
+  return [os.path.join(path,f) for f in os.listdir(path) if f.endswith(str(end_char))]
+
 # %%
-plotImages(imgs)
+#establish paths for image processing using keras
+train = '../data/train'
+valid = '../data/valid'
+test = '../data/test'
+
+# %%
+#larger class train/test split
+train_trial = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input)\
+    .flow_from_directory(directory=train, classes=['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q'] , batch_size=5)
+# %
+imgs, label = next(train_trial)
+# %%
+label
+# %%
+plotImages(imgs, 5)
+# %%
+label
+
+# %%
+#from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
+#from S-Y data set is 100 observations 'small_class', train, valid, test = [80,10,10]
+
+# P & Q seem to be different from ASL, Z is not included because it's a dynamic sign
+# J shouldn't be included but is signed differently from 
+# found that X had 23 miss classified files from D but labeled X (train, valid, test set = 57, 7, 7)
+
+
+class_list = ['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','S','T','U','V','W','X','Y']
+create_path = ['train/','valid/','test/']
+num_random_files = {'large_class': [320,40,40], 'small_class':[80,10,10]}
+main_dir = '/data/Train'
+
+file_manager(main_dir, create_path, small_class, num_random_files)
+
+
+
+# %%
+
+file_manager('blank','test/', small_class, 80)
+
 # %%
