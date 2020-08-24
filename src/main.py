@@ -93,20 +93,19 @@ class_mode='categorical')
 # %%
 #building basic CNN
 model = keras.models.Sequential()
-model.add(keras.layers.Conv2D(32, (5, 5), activation='relu'))
+model.add(keras.layers.Conv2D(32, (2, 2), activation='relu'))
 model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
 
-model.add(keras.layers.Conv2D(32, (5, 5), activation='relu'))
+model.add(keras.layers.Conv2D(32, (2, 2), activation='relu'))
 model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
 
-model.add(keras.layers.Conv2D(64, (5, 5), activation='relu'))
+model.add(keras.layers.Conv2D(64, (2, 2), activation='relu'))
 model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
 
 model.add(keras.layers.Flatten())
 model.add(keras.layers.Dense(24, activation='relu'))
 model.add(keras.layers.Dropout(0.5))
-model.add(keras.layers.Dense(24,
-                activation='tanh'))
+model.add(keras.layers.Dense(24, activation='softmax'))
 
 # %%
 model.compile(optimizer='adam',
@@ -115,7 +114,7 @@ model.compile(optimizer='adam',
 # %%
 model.fit(
     train_gen,
-    epochs=2,
+    epochs=5,
     validation_data=valid_gen)
 
 
