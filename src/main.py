@@ -6,8 +6,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Activation, Dense, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics  import categorical_crossentropy
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras import preprocessing
 from sklearn.metrics import confusion_matrix
 
 import itertools
@@ -55,6 +53,13 @@ def get_imlist(path,end_char):
 
   return [os.path.join(path,f) for f in os.listdir(path) if f.endswith(str(end_char))]
 
+def get_classlist(path):
+    """Returns a list of directories for each class"""
+
+
+def convert_grayscale(path):
+    pass
+
 # %%
 #establish paths for image processing using keras
 train = '../data/train'
@@ -72,7 +77,9 @@ label
 # %%
 plotImages(imgs, 5)
 # %%
-label
+test = tf.image.rgb_to_grayscale(imgs)
+img, label
+plotImages(, 5)
 
 # %%
 #from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
@@ -96,4 +103,18 @@ file_manager(main_dir, create_path, small_class, num_random_files)
 
 file_manager('blank','test/', small_class, 80)
 
+# %%
+test = get_imlist('../data/train/A','.jpg')
+# %%
+test
+# %%
+from skimage import io, color, filters
+from skimage.color import rgb2gray
+io.imshow('../data/train/A/A_63.jpg')
+
+test2 = tf.keras.preprocessing.image.load_img('../data/train/A/A_63.jpg', color_mode='grayscale')
+# %%
+test2
+# %%
+type(test2)
 # %%
