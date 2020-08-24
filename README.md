@@ -7,7 +7,7 @@ Applying machine learning techniques and convolutional neural nets to classify i
 
 
 ## Why ASL
-------
+
 As a CODA, Child of Deaf Adult, for the record I have never used that term before until now, I have an intimate understanding of the communication problems between the deaf community and the rest of population. 
 
 ASL has continously evolved into a more expressve and inclusive language but still bears extreme limitations when trying to communicate with those outside of the language. The deaf community constantly becomes siloed within their own groups and naturally have limitations in handling simple day to day task i.e. calling their phone provider to dispute or ask questions on their bill, call a doctor for an appointment, calling any customer service line, and countless other scenarios that I have personally experienced. A task that would take a hearing person 20-30 minutes can take a deaf person 2-3X longer, if they are not hung-up on because the business believes it's fraud. 
@@ -17,7 +17,37 @@ There are many issues in todays system of communication between the deaf and non
 Thanks to COVID-19 there has been an immediate acceleration of the adoption of video as a communication tool. No longer is it seen as a luxury form of communcation. With that in mind, I believe now is a great time to bridge the gap between these two communities and develop the tools necessary for the deaf community. 
 
 ## The Data
-______
+
+
+
+## Daily Journal Entry
+**DAY 1:**
+- wrote script to organize the train, validation, and test data into relative folders using os library. Became familiar with os functions for future use. 
+- spending large portion of the my day reading and understanding keras API. Notes on things i've read:
+    * image_dataset_from_directory is a tf.nightly function and I needed to pip install to use, this was to convert the complete path for each data set (train, valid, test) into grayscale, without doing it image by image. 
+    * ImageDataGenerator is an augmentation, data generator that allows you to make subtle changes that can occure in real situtions without needing to go throuhg the arduous process of collecting new images.
+        * rotation_range; not used in initial train
+        * shear_range; not used in initial train
+        * hori & vert flip; not used in initial train
+        * fill_mode; not used in initial train 
+        * and many more... above are some I will use when iterating through my model
+- built the first baseline CNN model: (still grappling with what each layer in CNN does)
+    * Sequential model
+    * 3 Conv2D hidden layers
+        * first 2 layers had filter=32, kernel_size=(5,5), activation='relu' and used maxpooling window pool_size=(2,2)
+        * third layer used filter=64, kernel_size=(5,5), activation='relu' and used maxpooling window pool_size=(2,2)
+    * applying reshaping of the data using flatten
+    * applying 2 Dense layers 
+        * first dense layer used unit=24, activation=relu.
+        * second dense layer used unit=24, activation=tanh.
+        * learned that using a unit=(less than # of classes) will return imcompatiable shape size [batch_size, unit] vs. [batch_size, classes], this comparison occurs between the train and validation set. 
+    * applied a dropout rate between the 2 dense layers dropout=.5, helps prevent overfitting. 
+
+- compiled the model using the following:
+    * optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'
+- finally I fit the model and used epoch=2 and the results were TERRIBLE!! (batch_size was 100)
+    * Epoch 1/2 60/60 - 246s 4s/step - loss: nan - accuracy: 0.0530 - val_loss: nan - val_accuracy: 0.0536
+    * Epoch 2/2 60/60 - 249s 4s/step - loss: nan - accuracy: 0.0539 - val_loss: nan - val_accuracy: 0.0536
 
 
 #### Predict the letter of an image in American Sign Language (ASL)

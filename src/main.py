@@ -6,6 +6,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Activation, Dense, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics  import categorical_crossentropy
+from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
 
 import itertools
@@ -62,24 +64,60 @@ def convert_grayscale(path):
 
 # %%
 #establish paths for image processing using keras
-train = '../data/train'
-valid = '../data/valid'
-test = '../data/test'
+train_path = '../data/train'
+valid_path = '../data/valid'
+test_path = '../data/test'
 
 # %%
-#larger class train/test split
-train_trial = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input)\
-    .flow_from_directory(directory=train, classes=['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q'] , batch_size=5)
-# %
-imgs, label = next(train_trial)
+
+# image prepreprocessing from rgb to grayscale.. play around with other parameters to see impact of changes
+train_img_pp = image_dataset_from_directory(train_path,color_mode='grayscale')
+valid_img_pp = image_dataset_from_directory(valid_path,color_mode='grayscale')
+# test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale') (not needed yet.)
+
+#create augmentation of image with ImageDataGenerator
+train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(train_img_pp)
+valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(valid_img_pp)
+# test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp)
 # %%
-label
+#generator object
+train_gen = train_datagen.flow_from_directory(train_path, 
+batch_size=100, 
+class_mode='categorical')
+
+valid_gen = train_datagen.flow_from_directory(valid_path, 
+batch_size=100, 
+class_mode='categorical')
+
+
 # %%
-plotImages(imgs, 5)
+#building basic CNN
+model = keras.models.Sequential()
+model.add(keras.layers.Conv2D(32, (5, 5), activation='relu'))
+model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
+
+model.add(keras.layers.Conv2D(32, (5, 5), activation='relu'))
+model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
+
+model.add(keras.layers.Conv2D(64, (5, 5), activation='relu'))
+model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
+
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(24, activation='relu'))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Dense(24,
+                activation='tanh'))
+
 # %%
-test = tf.image.rgb_to_grayscale(imgs)
-img, label
-plotImages(, 5)
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+# %%
+model.fit(
+    train_gen,
+    epochs=2,
+    validation_data=valid_gen)
+
 
 # %%
 #from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
@@ -97,24 +135,3 @@ main_dir = '/data/Train'
 
 file_manager(main_dir, create_path, small_class, num_random_files)
 
-
-
-# %%
-
-file_manager('blank','test/', small_class, 80)
-
-# %%
-test = get_imlist('../data/train/A','.jpg')
-# %%
-test
-# %%
-from skimage import io, color, filters
-from skimage.color import rgb2gray
-io.imshow('../data/train/A/A_63.jpg')
-
-test2 = tf.keras.preprocessing.image.load_img('../data/train/A/A_63.jpg', color_mode='grayscale')
-# %%
-test2
-# %%
-type(test2)
-# %%
