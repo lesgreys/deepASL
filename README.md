@@ -18,6 +18,14 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 
 ## The Data
 
+ - 7470 files
+ - 24 classes
+    - train set
+        - 5977 files
+    - valid set
+        - 746 files
+    - test set
+        - 747 files
 
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
