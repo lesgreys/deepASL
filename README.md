@@ -100,6 +100,10 @@ _________________________________________________________________
     Epoch 4/5: 12/12 - 78s 6s/step - loss: 0.1105 - accuracy: 0.9649 - val_loss: 0.0796 - val_accuracy: 0.9799
     Epoch 5/5: 12/12 - 75s 6s/step - loss: 0.0988 - accuracy: 0.9701 - val_loss: 0.0591 - val_accuracy: 0.9853
 
+**MODEL EVALUATION**
+24/24 - 3s 123ms/step - loss: 0.0591 - accuracy: 0.9853
+Test accuracy 98.53%
+
 - Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 
 
 #### Predict the letter of an image in American Sign Language (ASL)
