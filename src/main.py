@@ -9,6 +9,7 @@ from tensorflow.keras.metrics  import categorical_crossentropy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 import itertools
 import os
@@ -57,7 +58,6 @@ def get_imlist(path,end_char):
 
 def get_classlist(path):
     """Returns a list of directories for each class"""
-
 
 def convert_grayscale(path):
     pass
@@ -115,29 +115,104 @@ model.fit(train_gen,epochs=5,validation_data=valid_gen)
 # %%
 
 # %%
-#from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
-#from S-Y data set is 100 observations 'small_class', train, valid, test = [80,10,10]
+def blank_():
+    #from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
+    #from S-Y data set is 100 observations 'small_class', train, valid, test = [80,10,10]
 
-# P & Q seem to be different from ASL, Z is not included because it's a dynamic sign
-# J shouldn't be included but is signed differently from 
-# found that X had 23 miss classified files from D but labeled X (train, valid, test set = 57, 7, 7)
+    # P & Q seem to be different from ASL, Z is not included because it's a dynamic sign
+    # J shouldn't be included but is signed differently from 
+    # found that X had 23 miss classified files from D but labeled X (train, valid, test set = 57, 7, 7)
 
 
-class_list = ['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','S','T','U','V','W','X','Y']
-create_path = ['train/','valid/','test/']
-num_random_files = {'large_class': [320,40,40], 'small_class':[80,10,10]}
-main_dir = '/data/Train'
+    class_list = ['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','S','T','U','V','W','X','Y']
+    create_path = ['train/','valid/','test/']
+    num_random_files = {'large_class': [320,40,40], 'small_class':[80,10,10]}
+    main_dir = '/data/Train'
 
-file_manager(main_dir, create_path, small_class, num_random_files)
-
+    file_manager(main_dir, create_path, small_class, num_random_files)
+pass 
 # %%
 # use current model to predict on test set
 
 #generate test data
 test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale', image_size=(100,100)) 
 test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp, rescale=1./255)
-test_gen = train_datagen.flow_from_directory(valid_path, class_mode='categorical')
+test_gen = train_datagen.flow_from_directory(test_path, class_mode='categorical', shuffle=False, batch_size=1)
 # %%
-test_loss, test_acc =  model.evaluate(test_gen)
-print('\nTest accuracy {:5.2f}%'.format(100*test_acc))
+# test_loss, test_acc =  model.evaluate(test_gen)
+# print('\nTest accuracy {:5.2f}%'.format(100*test_acc))
+# %%
+y_pred = np.argmax(model.predict(test_gen), axis=1)
+y_predict = (model.predict(test_gen) > 0.5).astype("int32")
+# %%
+
+y_true = []
+for i in range(747):
+    y_true.append(np.argmax(test_gen[i][1]))
+
+
+
+# %%
+y_pred.shape, y_true.shape
+
+# %%
+# confusion_matrix(test_gen)
+#converting num category to key category to see prediction of alphabet
+# labels = (test_gen.class_indices)
+# labels = dict((v,k)for k,v in labels.items())
+# predictions = [labels[k] for k in y_pred]
+# predictions
+
+test_gen.reset()
+pred= model.predict(test_gen)
+predicted_class_indices=np.argmax(pred,axis=1)
+labels=(test_gen.class_indices)
+labels2=dict((v,k) for k,v in labels.items())
+predictions=[labels2[k] for k in predicted_class_indices]
+print(predicted_class_indices)
+print(labels)
+print(predictions)
+
+
+# %%
+cm = confusion_matrix(y_true,y_pred)
+# %%
+def plot_confusion_matrix(cm, class_names):
+
+  """
+  Returns a matplotlib figure containing the plotted confusion matrix.
+
+  Args:
+    cm (array, shape = [n, n]): a confusion matrix of integer classes
+    class_names (array, shape = [n]): String names of the integer classes
+  """
+  figure = plt.figure(figsize=(15, 15))
+  plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+  plt.title("Confusion matrix")
+  plt.colorbar()
+  tick_marks = np.arange(len(class_names))
+  plt.xticks(tick_marks, class_names, rotation=45)
+  plt.yticks(tick_marks, class_names)
+
+  # Normalize the confusion matrix.
+  cm = np.around(cm.astype('float') / cm.sum(axis=1)[:, np.newaxis], decimals=2)
+
+  # Use white text if squares are dark; otherwise black.
+  threshold = cm.max() / 2.
+  for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+    color = "white" if cm[i, j] > threshold else "black"
+    plt.text(j, i, cm[i, j], horizontalalignment="center", color=color)
+
+  plt.tight_layout()
+  plt.ylabel('True label')
+  plt.xlabel('Predicted label')
+  return figure
+
+
+# %%
+
+plot_confusion_matrix(cm, test_gen.class_indices.keys())
+plt.savefig('../images/confusion_matrix.png')
+# %%
+
 # %%
