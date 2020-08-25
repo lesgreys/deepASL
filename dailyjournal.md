@@ -83,3 +83,10 @@ _________________________________________________________________
 Test accuracy 98.53%
 
 - Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 
+
+**DAY 2:**
+GOALS:
+- Find out which images I'm miss classifying
+- Do EDA
+- Continue reading on hyperparameters
+
