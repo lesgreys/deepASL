@@ -71,52 +71,48 @@ test_path = '../data/test'
 # %%
 
 # image prepreprocessing from rgb to grayscale.. play around with other parameters to see impact of changes
-train_img_pp = image_dataset_from_directory(train_path,color_mode='grayscale')
-valid_img_pp = image_dataset_from_directory(valid_path,color_mode='grayscale')
+train_img_pp = image_dataset_from_directory(train_path,color_mode='grayscale', image_size=(100,100))
+valid_img_pp = image_dataset_from_directory(valid_path,color_mode='grayscale', image_size=(100,100))
 # test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale') (not needed yet.)
 
 #create augmentation of image with ImageDataGenerator
-train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(train_img_pp)
-valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(valid_img_pp)
+train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(train_img_pp, rescale=1./255)
+valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(valid_img_pp, rescale=1./255)
 # test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp)
 # %%
 #generator object
 train_gen = train_datagen.flow_from_directory(train_path, 
-batch_size=100, 
+batch_size=500, 
 class_mode='categorical')
 
 valid_gen = train_datagen.flow_from_directory(valid_path, 
-batch_size=100, 
+batch_size=500, 
 class_mode='categorical')
 
 
 # %%
 #building basic CNN
 model = keras.models.Sequential()
-model.add(keras.layers.Conv2D(32, (2, 2), activation='relu'))
-model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
 
-model.add(keras.layers.Conv2D(32, (2, 2), activation='relu'))
-model.add(keras.layers.MaxPooling2D(pool_size=(2,2)))
+model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
+model.add(keras.layers.MaxPooling2D(pool_size=(5,5)))
+model.add(keras.layers.Dropout(.15))
 
-model.add(keras.layers.Conv2D(64, (2, 2), activation='relu'))
-model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
+model.add(keras.layers.MaxPooling2D(pool_size=(5,5)))
+model.add(keras.layers.Dropout(.15))
 
 model.add(keras.layers.Flatten())
-model.add(keras.layers.Dense(24, activation='relu'))
-model.add(keras.layers.Dropout(0.5))
-model.add(keras.layers.Dense(24, activation='softmax'))
+model.add(keras.layers.Dense(24, activation='sigmoid'))
 
 # %%
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 # %%
-model.fit(
-    train_gen,
-    epochs=5,
-    validation_data=valid_gen)
+model.fit(train_gen,epochs=5,validation_data=valid_gen)
 
+# %%
 
 # %%
 #from A-Q data set is 400 observations 'large_class', train, valid, test = [320,40,40]
@@ -134,3 +130,14 @@ main_dir = '/data/Train'
 
 file_manager(main_dir, create_path, small_class, num_random_files)
 
+# %%
+# use current model to predict on test set
+
+#generate test data
+test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale', image_size=(100,100)) 
+test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp, rescale=1./255)
+test_gen = train_datagen.flow_from_directory(valid_path, class_mode='categorical')
+# %%
+test_loss, test_acc =  model.evaluate(test_gen)
+print('\nTest accuracy {:5.2f}%'.format(100*test_acc))
+# %%
