@@ -81,3 +81,5 @@ _________________________________________________________________
 **MODEL EVALUATION**
 24/24 - 3s 123ms/step - loss: 0.0591 - accuracy: 0.9853
 Test accuracy 98.53%
+
+- Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 

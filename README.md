@@ -19,12 +19,6 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 ## The Data
 
 
-
-
-
-
-- Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 
-
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
 **Data type:** Stationary/Images<br>
