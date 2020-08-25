@@ -27,34 +27,21 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 #sudo code
 
 # %%
+def data_gen_object(path, batch_size, shuffle=True):
+  """ 
+  Takes care of preprocess, grayscale, augmentation and generator object
+  Pass in the director for object generator and preprocess data with Keras API, ImageDataGenerator.
+  Returns: DirectoryIterator from Keras API
+  """
+  dir_iter = tf.keras.preprocessing.image.ImageDataGenerator(image_dataset_from_directory(path,color_mode='grayscale', image_size=(100,100)), rescale=1./255)\
+    .flow_from_directory(path, batch_size=batch_size, class_mode='categorical', shuffle=shuffle)
 
-
-# %%
-
-# image prepreprocessing from rgb to grayscale.. play around with other parameters to see impact of changes
-train_img_pp = image_dataset_from_directory(train_path,color_mode='grayscale', image_size=(100,100))
-valid_img_pp = image_dataset_from_directory(valid_path,color_mode='grayscale', image_size=(100,100))
-# test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale') (not needed yet.)
-
-#create augmentation of image with ImageDataGenerator
-train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(train_img_pp, rescale=1./255)
-valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(valid_img_pp, rescale=1./255)
-# test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp)
-# %%
-#generator object
-train_gen = train_datagen.flow_from_directory(train_path, 
-batch_size=500, 
-class_mode='categorical')
-
-valid_gen = train_datagen.flow_from_directory(valid_path, 
-batch_size=500, 
-class_mode='categorical')
-
+  return dir_iter
 
 # %%
 #building basic CNN
 
-def build_cnn():
+def build__compile_cnn():
     model = keras.models.Sequential()
 
     model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
@@ -68,60 +55,38 @@ def build_cnn():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(24, activation='sigmoid'))
 
-    return model
-
-
-# %%
-model.compile(optimizer='adam',
+    model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
-# %%
-model.fit(train_gen,epochs=5,validation_data=valid_gen)
 
-# %
-# %%
-# use current model to predict on test set
+    return model
 
-#generate test data
-test_img_pp = image_dataset_from_directory(test_path,color_mode='grayscale', image_size=(100,100)) 
-test_datagen =  tf.keras.preprocessing.image.ImageDataGenerator(test_img_pp, rescale=1./255)
-test_gen = train_datagen.flow_from_directory(test_path, class_mode='categorical', shuffle=False, batch_size=1)
+def fit(model, train_data, epochs, validation_data):
+  return model.fit(train_data,epochs=epochs,validation_data=validation_data)
 
+def predict(model, test_data):
+  y_pred = np.argmax(model.predict(test_data), axis=1)
+  y_true = [np.argmax(test_data[i][1]) for i in range(747)]
 
-y_pred = np.argmax(model.predict(test_gen), axis=1)
-y_predict = (model.predict(test_gen) > 0.5).astype("int32")
-# %%
-
-y_true = [np.argmax(test_gen[i][1]) for i in range(747)]
-y_true
+  return y_pred, y_true
 
 
-# %%
-test_gen.reset()
-pred= model.predict(test_gen)
-predicted_class_indices=np.argmax(pred,axis=1)
-labels=(test_gen.class_indices)
-labels2=dict((v,k) for k,v in labels.items())
-predictions=[labels2[k] for k in predicted_class_indices]
-print(predicted_class_indices)
-print(labels)
-print(predictions)
-
-
-# %%
-cm = confusion_matrix(y_true,y_pred)
-
-# %%
-
-plot_confusion_matrix(cm, test_gen.class_indices.keys())
-# plt.savefig('../images/confusion_matrix.png')
-#
-# %%
-
-
+  
 if __name__ == '__main__':
-  #establish paths for image processing using keras
+#establish paths for image processing using keras
   train_path = '../data/train'
   valid_path = '../data/valid'
   test_path = '../data/test'
 
+  train = data_gen_object(train_path, 500)
+  valid = data_gen_object(valid_path, 500)
+  test = data_gen_object(test_path, 1, shuffle=False)
+
+  model = build_cnn()
+  
+
+  cm = confusion_matrix(y_true,y_pred)
+
+  plot_confusion_matrix(cm, test_gen.class_indices.keys())
+
+# %%

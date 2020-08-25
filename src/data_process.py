@@ -38,17 +38,17 @@ def get_imlist(path,end_char):
 
 if __name__ == '__main__':
 
-    """
-    initial variables set to structure folders 
-    
-    class_list = ['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','S','T','U','V','W','X','Y']
-    create_path = ['train/','valid/','test/']
-    num_random_files = {'large_class': [320,40,40], 'small_class':[80,10,10]}
-    main_dir = '/data/Train'
+"""
+initial variables set to structure folders 
 
-    file_manager(main_dir, create_path, small_class, num_random_files)
-    ""
-    pass
+class_list = ['A','B','C', 'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','S','T','U','V','W','X','Y']
+create_path = ['train/','valid/','test/']
+num_random_files = {'large_class': [320,40,40], 'small_class':[80,10,10]}
+main_dir = '/data/Train'
+
+file_manager(main_dir, create_path, small_class, num_random_files)
+""
+   
 
 """
 Notes:
@@ -59,3 +59,5 @@ Notes:
     # J shouldn't be included but is signed differently from 
     # found that X had 23 miss classified files from D but labeled X (train, valid, test set = 57, 7, 7)
 """
+
+ pass
