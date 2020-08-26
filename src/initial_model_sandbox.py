@@ -28,6 +28,16 @@ def data_gen_object(path, batch_size, shuffle=True):
 
   return dir_iter
 
+def data_aug_object(path, batch_size, shuffle=True):
+  """ 
+  Takes care of preprocess, grayscale, augmentation and generator object
+  Pass in the director for object generator and preprocess data with Keras API, ImageDataGenerator.
+  Returns: DirectoryIterator from Keras API
+  """
+  dir_iter = tf.keras.preprocessing.image.ImageDataGenerator(
+    image_dataset_from_directory(path,color_mode='grayscale', image_size=(100,100)), rescale=1./255,rotation_range=10,zoom_range=0.1,width_shift_range=0.1, height_shift_range=0.1).flow_from_directory(path, batch_size=batch_size, class_mode='categorical', shuffle=shuffle)
+  return dir_iter
+
 #building basic CNN
 
 def build_compile_cnn():
@@ -68,7 +78,7 @@ if __name__ == '__main__':
   epochs = 5
   batch_size=500
 
-  train = data_gen_object(train_path, batch_size)
+  train = data_aug_object(train_path, batch_size)
   valid = data_gen_object(valid_path, batch_size)
   test = data_gen_object(test_path, 1, shuffle=False)
 
@@ -85,5 +95,6 @@ if __name__ == '__main__':
   # cm = confusion_matrix(y_true,y_pred)
 
   # plot_confusion_matrix(cm, test.class_indices.keys())
+
 
 # %%
