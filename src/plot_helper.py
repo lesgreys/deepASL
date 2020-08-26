@@ -10,6 +10,7 @@ import itertools
 
 
 def plotImages(images_arr, batch_size):
+  
     fig, axes = plt.subplots(1,batch_size, figsize=(20,20))
     axes = axes.flatten()
     for img, ax in zip(images_arr, axes):
@@ -55,7 +56,7 @@ def plot_samples(letter, random_num):
     return
 
 
-def plot_confusion_matrix(cm, class_names):
+def plot_confusion_matrix(cm, class_names, file_name):
 
   """
   Returns a matplotlib figure containing the plotted confusion matrix.
@@ -84,4 +85,10 @@ def plot_confusion_matrix(cm, class_names):
   plt.tight_layout()
   plt.ylabel('True label')
   plt.xlabel('Predicted label')
+  plt.savefig(f'../images/{file_name}.png')
+  plt.show()
   return figure
+
+
+
+  pass
