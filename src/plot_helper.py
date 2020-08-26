@@ -20,7 +20,7 @@ def plotImages(images_arr, batch_size):
 
 
 def plotImagesDist(images_arr, batch_size):
-    plt.figure(figsize=(8,3))
+    plt.figure(figsize=(12,5))
     for img in images_arr:
         ax = sns.distplot(img)
     plt.tight_layout()
@@ -30,7 +30,7 @@ def plotImagesDist(images_arr, batch_size):
 
 def plot_samples(letter, random_num):
     print("Samples images for letter " + letter)
-    base_path = '../data/train/'
+    base_path = 'data/train/'
     img_path = base_path + letter + '/**'
     path_contents = glob(img_path)
     

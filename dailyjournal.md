@@ -86,7 +86,11 @@ Test accuracy 98.53%
 
 **DAY 2:**
 GOALS:
+Commits: ~12
 - Find out which images I'm miss classifying
 - Do EDA
 - Continue reading on hyperparameters
 
+- Corrected several issues/errors I had in my code, I was passing in the wrong directory for my testing generator object. Explaining why my val_accuracy was same when fitting and evaluating. 
+- Had to work through undertanding how to aggregate all my labels from test_generator_object in same order that I was predicting so I can build a confusion matrix. The test_gen_object is a tuple of (x, y) where x=images, y=label but y is an mxn array of m=batch_size and n=classes (it's a one hot encoding for each row).
+- After re-running model the accuracy has fluctuated between 96-98%, no hyperparameters have been changed. 

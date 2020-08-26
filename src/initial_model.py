@@ -75,8 +75,13 @@ if __name__ == '__main__':
   init_model = build_compile_cnn()
   init_model.fit(train,epochs=epochs,validation_data=valid)
 
-  y_pred, y_true = predict(init_model, test)
 
-  cm = confusion_matrix(y_true,y_pred)
+  score = init_model.evaluate(test, verbose=0)
+  print('Test score:', score[0])
+  print('Test accuracy:', score[1]) # this is the one we care about
 
-  plot_confusion_matrix(cm, test.class_indices.keys())
+  # y_pred, y_true = predict(init_model, test)
+
+  # cm = confusion_matrix(y_true,y_pred)
+
+  # plot_confusion_matrix(cm, test.class_indices.keys())
