@@ -9,24 +9,14 @@ from tensorflow.keras.metrics  import categorical_crossentropy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+from plot_helper import plot_confusion_matrix
 
-import itertools
-import os
-import glob
-import shutil
-import random
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-%matplotlib inline
-
-#sudo code
-
-# %%
 def data_gen_object(path, batch_size, shuffle=True):
   """ 
   Takes care of preprocess, grayscale, augmentation and generator object
@@ -38,10 +28,9 @@ def data_gen_object(path, batch_size, shuffle=True):
 
   return dir_iter
 
-# %%
 #building basic CNN
 
-def build__compile_cnn():
+def build_compile_cnn():
     model = keras.models.Sequential()
 
     model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
@@ -61,32 +50,33 @@ def build__compile_cnn():
 
     return model
 
-def fit(model, train_data, epochs, validation_data):
-  return model.fit(train_data,epochs=epochs,validation_data=validation_data)
+# def fit(model, train_data, epoch, valid_data):
+#   return model.fit(train_data,epochs=epochs,validation_data=valid_data)
 
-def predict(model, test_data):
+def predict(model, test_data, test_observations=747):
   y_pred = np.argmax(model.predict(test_data), axis=1)
-  y_true = [np.argmax(test_data[i][1]) for i in range(747)]
+  y_true = np.array([np.argmax(test_data[i][1]) for i in range(test_observations)])
 
   return y_pred, y_true
 
 
-  
 if __name__ == '__main__':
 #establish paths for image processing using keras
   train_path = '../data/train'
   valid_path = '../data/valid'
   test_path = '../data/test'
+  epochs = 1
+  batch_size=500
 
-  train = data_gen_object(train_path, 500)
-  valid = data_gen_object(valid_path, 500)
+  train = data_gen_object(train_path, batch_size)
+  valid = data_gen_object(valid_path, batch_size)
   test = data_gen_object(test_path, 1, shuffle=False)
 
-  model = build_cnn()
-  
+  init_model = build_compile_cnn()
+  init_model.fit(train,epochs=epochs,validation_data=valid)
+
+  y_pred, y_true = predict(init_model, test)
 
   cm = confusion_matrix(y_true,y_pred)
 
-  plot_confusion_matrix(cm, test_gen.class_indices.keys())
-
-# %%
+  plot_confusion_matrix(cm, test.class_indices.keys())

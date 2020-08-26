@@ -6,6 +6,7 @@ import pandas as pd
 import seaborn as sns
 from skimage.io import imread
 from glob import glob
+import itertools
 
 
 def plotImages(images_arr, batch_size):
