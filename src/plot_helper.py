@@ -9,8 +9,11 @@ from glob import glob
 import itertools
 
 
+def ImagetoArray(list_img_paths):
+    return np.array([rgb2gray(imread(i)) for i in list_img_paths])
+
 def plotImages(images_arr, batch_size):
-  
+
     fig, axes = plt.subplots(1,batch_size, figsize=(20,20))
     axes = axes.flatten()
     for img, ax in zip(images_arr, axes):
@@ -89,6 +92,22 @@ def plot_confusion_matrix(cm, class_names, file_name):
   plt.show()
   return figure
 
+def plotMissedClasses(images_path, predicted_values, true_values):
+  """
+  Plots images model wrongly predicted:
 
+  Parameters:
+  images_path (array/list): each element is a string of the path for each image predicted on.
+  predicted_values (array/list): each element is the class model predicted.
+  true_values (array/list): each element is the true class of the image. 
 
-  pass
+  Returns:
+  Plots and saves each image with True Class & Predicted Class identified. 
+  """
+    image_array = ImagetoArray(images_path) #creates an array of arrays where each image path is converted to grayscale number array. 
+    for num, (img, pred, true) in enumerate(zip(image_array, predicted_values, true_values)):
+        fig, ax = plt.subplots()
+        ax.set_title(f'Class: {true}, Predicted: {pred}')
+        ax.imshow(img)
+        ax.axis('off')
+        plt.savefig(f'../images/{true}{pred}{num}.png')

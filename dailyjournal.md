@@ -80,7 +80,7 @@ _________________________________________________________________
 
 **MODEL EVALUATION**
 24/24 - 3s 123ms/step - loss: 0.0591 - accuracy: 0.9853
-Test accuracy 98.53%
+Test accuracy 98.53% (this was wrong because I was using the validation set to test)
 
 - Training is taking over 1.5minute per epoch, best I look into using GPU with AWS EC2 virtual machine. 
 
@@ -94,3 +94,15 @@ Commits: ~12
 - Corrected several issues/errors I had in my code, I was passing in the wrong directory for my testing generator object. Explaining why my val_accuracy was same when fitting and evaluating. 
 - Had to work through undertanding how to aggregate all my labels from test_generator_object in same order that I was predicting so I can build a confusion matrix. The test_gen_object is a tuple of (x, y) where x=images, y=label but y is an mxn array of m=batch_size and n=classes (it's a one hot encoding for each row).
 - After re-running model the accuracy has fluctuated between 96-98%, no hyperparameters have been changed. 
+- uploaded a new dataset into AWS took an extremely long time, would like to load up an EC2 and run my currenty model over the new dataset. I'm assuming model will do very poorly due to the images it was trained on. 
+- spent a large portion of the day organizing all my scripts and creating a better framework for future processing of this project. Seperating scripts by functionality. 
+
+**DAY 3:**
+Commits:
+
+GOALS: 
+- spin up EC2 on AWS
+- test a second model with some augmentation
+- Load a new dataset into my model
+
+

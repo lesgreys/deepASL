@@ -37,13 +37,18 @@ def get_imlist(path,end_char):
 def ImagetoArray(list_img_paths):
     return np.array([rgb2gray(imread(i)) for i in list_img_paths])
     
-def arrMissedClass(main_dir, test_directory, test_true, test_predicted):
+def arrMissedClass(main_dir, test_directory, test_true, test_predicted, class_dict):
   #get y_true array compare with y_pred array and return array of indexes 
   #where all pred != true.
+    labels = dict((v,k) for k,v in class_dict.items())
+    pred_arr = np.array([labels[k] for k in test_predicted])
+    true_arr = np.array([labels[k] for k in test_true])
 
-  #cross return array with array of test directory
-  missclassarr = np.array([str(main_dir) + test_directory[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
-  return missclassarr
+    #cross return array with array of test directory
+    missclassdir = np.array([str(main_dir) + test_directory[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
+    misspredarr = np.array([pred_arr[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
+    misstruearr = np.array([true_arr[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
+  return missclassdir, misspredarr, misstruearr
 
 if __name__ == '__main__':
 
