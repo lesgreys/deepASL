@@ -37,7 +37,13 @@ def get_imlist(path,end_char):
 def ImagetoArray(list_img_paths):
     return np.array([rgb2gray(imread(i)) for i in list_img_paths])
     
+def arrMissedClass(main_dir, test_directory, test_true, test_predicted):
+  #get y_true array compare with y_pred array and return array of indexes 
+  #where all pred != true.
 
+  #cross return array with array of test directory
+  missclassarr = np.array([str(main_dir) + test_directory[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
+  return missclassarr
 
 if __name__ == '__main__':
 
