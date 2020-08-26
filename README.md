@@ -29,19 +29,19 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 
 ** A COUPLE SAMPLES OF THE DATA** <br>
 ![A](images/a_asl_samp.png)<br>
-![A2](/images/a_dist.png)<br>
+![A2](images/a_dist.png)<br>
 
-![C](../images/c_asl_samp.png)<br>
-![C](../images/c_dist.png)<br>
+![C](images/c_asl_samp.png)<br>
+![C2](images/c_dist.png)<br>
 
-![E](../images/e_asl_samp.png)<br>
-![E](../images/e_dist.png)<br>
+![E](images/e_asl_samp.png)<br>
+![E2](images/e_dist.png)<br>
 
-![S](../images/s_asl_samp.png)<br>
-![S](../images/s_dist.png)<br>
+![S](images/s_asl_samp.png)<br>
+![S2](images/s_dist.png)<br>
 
-![T](../images/t_asl_samp.png)<br>
-![T](../images/t_dist.png)<br>
+![T](images/t_asl_samp.png)<br>
+![T2](images/t_dist.png)<br>
 
 ![cm](images/confusion_matrix.png)
 
