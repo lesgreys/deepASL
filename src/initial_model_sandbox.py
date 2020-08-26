@@ -35,7 +35,7 @@ def data_aug_object(path, batch_size, shuffle=True):
   Returns: DirectoryIterator from Keras API
   """
   dir_iter = tf.keras.preprocessing.image.ImageDataGenerator(
-    image_dataset_from_directory(path,color_mode='grayscale', image_size=(100,100)), rescale=1./255,rotation_range=10,zoom_range=0.1,width_shift_range=0.1, height_shift_range=0.1).flow_from_directory(path, batch_size=batch_size, class_mode='categorical', shuffle=shuffle)
+    image_dataset_from_directory(path,color_mode='grayscale', image_size=(100,100)), rescale=1./255,rotation_range=10,zoom_range=0.05,width_shift_range=0.05, height_shift_range=0.05).flow_from_directory(path, batch_size=batch_size, class_mode='categorical', shuffle=shuffle)
   return dir_iter
 
 #building basic CNN
@@ -90,11 +90,12 @@ if __name__ == '__main__':
   print('Test score:', score[0])
   print('Test accuracy:', score[1])
 
-  # y_pred, y_true = predict(init_model, test)
+  y_pred, y_true = predict(init_model, test)
 
-  # cm = confusion_matrix(y_true,y_pred)
+  cm = confusion_matrix(y_true,y_pred)
 
-  # plot_confusion_matrix(cm, test.class_indices.keys())
+  plot_confusion_matrix(cm, test.class_indices.keys(), 'confusion_matrix_sandbox')
 
+  
 
 # %%
