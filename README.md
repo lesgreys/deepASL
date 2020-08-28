@@ -18,9 +18,9 @@ Thanks to COVID-19 there has been an immediate acceleration of the adoption of v
 
 ### What is American Sign Language (ASL)?
 
-A complete guide to the definition can be found [here]('https://www.nidcd.nih.gov/health/american-sign-language') by the NIDCD:
+A complete guide to the definition can be found [here](https://www.nidcd.nih.gov/health/american-sign-language) by the NIDCD:
 
-**Some important points are the following:**
+**Some important points:**
 * ASL is a natural language that has some linguistic properties as spoken languages.
 * Expressed by movements of hands and face, the same sign can have unique meaning by emphasis on face and/or hand movement. 
 * Primary language of North American deaf and hard of hearing. 
@@ -35,7 +35,7 @@ A complete guide to the definition can be found [here]('https://www.nidcd.nih.go
 ![techstack](images/tech_stack.png)
 
 ## The Data
-The data was acquired through open-source repos from [GitHub]('https://github.com/mjk188/ASL-Translator'). 
+The data was acquired through open-source repos from [GitHub](https://github.com/mjk188/ASL-Translator). 
 From this repo, we acquired **7470** images with **24** classes to predict.
 
 Using the python os library, I automated the data structuring to create a train, validation, and test directory for all my data. This follows the requirements for Keras API when training and testing your models. The directories took the following format. 
@@ -49,11 +49,13 @@ Using the python os library, I automated the data structuring to create a train,
     - test set (747 files)
         - 24 classes
 
-The scope of this phase was to predict classes from static images, for this reason, 2 of the letters from the alphabet were dropped since they require movement to sign (J, Z). This will be addressed and later iterations. 
+The scope of this phase was to predict classes from static images, for this reason, 2 of the letters from the alphabet were dropped since they require movement to sign (J, Z). This will be addressed in later iterations. 
 
-Pulling a random sampling from our data set 
+Pulling a random sampling from our A Class train set, we see our images are in color (3-channel rgb):
+Each image takes the shape of 200 x 200x 3. 
+![color_img](images/full_img.png)
 
-
+After inspecting the majority of the dataset, I identified images displing very similar form, lighting, and hand positioning. This raised some intial concerns about the possibility of overfitting my models once I begin training. Aside from these concerns, several images were miss labeled and removed. This accounted for approximately 20 images with little concern to overall performance of the model. 
 
 
 
