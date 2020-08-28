@@ -72,7 +72,7 @@ Another extremely useful tool within the Tensorflow.Keras API is the ability to 
 
 A sample of the resulting transformation:
 
-![img_tran]('images/img_tran.png')
+![img_tran](images/img_tran.png)
 
 
 
