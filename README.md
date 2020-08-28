@@ -114,17 +114,17 @@ Here we can see a sub sample of ASL signs that were missclassified.
 
 
 ## What's next...
-- [x] Collect different datasets/more complex
+- [x] #### Collect different datasets/more complex
     - [ ] Static images that contain person in image
     - [x] Video dataset (MSFT ASL Data) 
-- [ ] Train new more complex CNN models with different data
-- [ ] Develop independent data collection
+- [ ] #### Train new more complex CNN models with different data
+- [ ] #### Develop independent data collection
     - [ ] develop external site and/or app to share with close friends and family to have them collect new data based off displayed words and have a gamification process of the training.
     - [ ] word shown on screen, person signs the word, can do as many of these as they'd like. 
     - [ ] data validate: option to validate others signs. 
-    - [ ]create a positive feedback loop in which data fed in allows user to gain incentives. 
-- [ ] understand edge computing or train remote model and sent predictions back (i.e. google keyboard)
-- [ ] Search for people that would like to contribute
+    - [ ] create a positive feedback loop in which data fed in allows user to gain incentives. 
+- [ ] #### understand edge computing or train remote model and sent predictions back (i.e. google keyboard)
+- [ ] #### Search for people that would like to contribute
 
 
 
