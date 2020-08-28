@@ -43,7 +43,7 @@ Using the python os library, I automated the data structuring to create a train,
  - 7470 files
  - 24 classes
     - train set (5977 files)
-            - 24 classes 
+        - 24 classes 
     - valid set (746 files)
         - 24 classes
     - test set (747 files)
