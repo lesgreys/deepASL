@@ -32,18 +32,19 @@ A complete guide to the definition can be found [here](https://www.nidcd.nih.gov
 * ASL has regional variations in the rhythm of signing, pronunciation, slang, and signs used. Other sociological factors, including age and gender, can affect ASL usage and contribute to its variety, just as with spoken languages.
 
 ## The Tech
+
 ![techstack](images/tech_stack.png)
 
 ## The Data
 The data was acquired through open-source repos from [GitHub](https://github.com/mjk188/ASL-Translator). 
-From this repo, we acquired **7470** images with **24** classes to predict.
+From this repo, I acquired **7470** images with **24** classes to predict.
 
 Using the python os library, I automated the data structuring to create a train, validation, and test directory for all my data. This follows the requirements for Keras API when training and testing your models. The directories took the following format. 
 
  - 7470 files
  - 24 classes
     - train set (5977 files)
-        - 24 classes 
+        - 24 classes
     - valid set (746 files)
         - 24 classes
     - test set (747 files)
@@ -53,9 +54,31 @@ The scope of this phase was to predict classes from static images, for this reas
 
 Pulling a random sampling from our A Class train set, we see our images are in color (3-channel rgb):
 Each image takes the shape of 200 x 200x 3. 
+
 ![color_img](images/full_img.png)
 
-After inspecting the majority of the dataset, I identified images displing very similar form, lighting, and hand positioning. This raised some intial concerns about the possibility of overfitting my models once I begin training. Aside from these concerns, several images were miss labeled and removed. This accounted for approximately 20 images with little concern to overall performance of the model. 
+After inspecting the majority of the dataset, I identified images displaing very similar form, lighting, and hand positioning. This raised some intial concerns about the possibility of overfitting my models once I began training. Aside from these concerns, several images were miss labeled and removed. This accounted for approximately 20 images with little concern to overall performance of the model. 
+
+Once the file directory was in order the next step was to being data preprocessing and transformation. Color is not considered an important feature for predictive accuracy for this phase, and so, the first step was to convery all images in real-time to grayscale. Also, we resized and rescaled all the images, 100 x 100 and 1/255, respectively. 
+
+The purpose for these decisions are normally to see how light we can train our models by passing in less "information", decreasing the complexity/work load of the model. As I iterate through theses processes, I can increase the information in attempts to increase predictive ability, if necessary. 
+
+Another extremely useful tool within the Tensorflow.Keras API is the ability to generate synthetic data with the ImageDataGenerator. This allows me to create changes in my images that can naturally take place within the real world. The basic hyperparameters used for my data augmentation are as follows:
+
+* Random image rotation with limit of 10 degrees.
+* Shifted the image on X-axis (width) by a limit of 5%.
+* Shifted the image on Y-axis (height) by a limit of 5%.
+* Zooming image by limit of 5%
+
+A sample of the resulting transformation:
+
+![img_tran]('images/img_tran.png')
+
+
+
+
+
+
 
 
 
