@@ -74,11 +74,25 @@ A sample of the resulting transformations:
 
 ![img_tran](images/img_tran.png)
 
-## Model Training
+## Results
 
+### Init_model:
 
+Using `keras.models.Sequential()` and data preprocessed to grayscale, resizing, and rescaling but **not** augmented, I trained my first model with 2 Conv2D hidden layers. 
 
+See `initial_model.py` for complete details of the model. 
 
+### Confusion Matrix:
+![cm](images/confusion_matrix.png)
+
+#### Sandbox_model:
+
+Using `keras.models.Sequential()` and data transformed with grayscale, resizing, and rescaling and augmented, I trained my first model with 2 Conv2D hidden layers. 
+
+See `sandbox_model.py` for complete details of the model. 
+
+### Confusion Matrix:
+![cms](images/confusion_matrix_sandbox.png)
 
 
 ** A COUPLE SAMPLES OF THE DATA** <br>
@@ -99,7 +113,7 @@ A sample of the resulting transformations:
 ![T](images/t_asl_samp.png)<br>
 ![T2](images/t_dist.png)<br>
 
-![cm](images/confusion_matrix.png)
+
 
 #### Predict the letter of an image in American Sign Language (ASL)
 **Prediction type:** Categorical<br>
