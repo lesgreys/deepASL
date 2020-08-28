@@ -1,12 +1,12 @@
 # The ASL Project
-Applying machine learning techniques and convolutional neural nets to classify images of the American Sign Language (ASL) alphabet. This project contains several phases with long-term goals for real-world deployment. The intent is to have each subsequent phase build upon the previous phase. 
+Deploy deep learning technologies in computer vision to bridge the communication gap between the deaf and everyone else. This project contains several phases with long-term goals for real-world deployment. The intent is to have each subsequent phase build upon the previous phase. 
 
 ![helloASL](images/helloasl2.jpg)
 
 **TL;DR**
 
 
-## Why ASL
+### Why ASL
 
 As a CODA, Child of Deaf Adult, for the record I have never used that term before until now, I have an intimate understanding of the communication problems between the deaf community and the rest of population. 
 
@@ -16,20 +16,46 @@ There are many issues in todays system of communication between the deaf and non
 
 Thanks to COVID-19 there has been an immediate acceleration of the adoption of video as a communication tool. No longer is it seen as a luxury form of communcation. With that in mind, I believe now is a great time to bridge the gap between these two communities and develop the tools necessary for the deaf community. 
 
+### What is American Sign Language (ASL)?
+
+A complete guide to the definition can be found [here]('https://www.nidcd.nih.gov/health/american-sign-language') by the NIDCD:
+
+**Some important points are the following:**
+* ASL is a natural language that has some linguistic properties as spoken languages.
+* Expressed by movements of hands and face, the same sign can have unique meaning by emphasis on face and/or hand movement. 
+* Primary language of North American deaf and hard of hearing. 
+* ASL is not universal
+* Contains all the fundamental features of language, with its own rules for pronunciation, word formation, and word order.
+
+**Interesting things to know:**
+* English speakers may ask a question by raising the pitch of their voices and by adjusting word order; ASL users ask a question by raising their eyebrows, widening their eyes, and tilting their bodies forward.
+* ASL has regional variations in the rhythm of signing, pronunciation, slang, and signs used. Other sociological factors, including age and gender, can affect ASL usage and contribute to its variety, just as with spoken languages.
+
+## The Tech
+![techstack](images/tech_stack.png)
+
 ## The Data
+The data was acquired through open-source repos from [GitHub]('https://github.com/mjk188/ASL-Translator'). 
+From this repo, we acquired **7470** images with **24** classes to predict.
+
+Using the python os library, I automated the data structuring to create a train, validation, and test directory for all my data. This follows the requirements for Keras API when training and testing your models. The directories took the following format. 
 
  - 7470 files
  - 24 classes
-    - train set
-        - 5977 files
-    - valid set
-        - 746 files
-    - test set
-        - 747 files
+    - train set (5977 files)
+            - 24 classes 
+    - valid set (746 files)
+        - 24 classes
+    - test set (747 files)
+        - 24 classes
+
+Considering there are 26
 
 ** A COUPLE SAMPLES OF THE DATA** <br>
 ![A](images/a_asl_samp.png)<br>
 ![A2](images/a_dist.png)<br>
+
+
 
 ![C](images/c_asl_samp.png)<br>
 ![C2](images/c_dist.png)<br>
