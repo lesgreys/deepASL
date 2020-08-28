@@ -49,7 +49,13 @@ Using the python os library, I automated the data structuring to create a train,
     - test set (747 files)
         - 24 classes
 
-Considering there are 26
+The scope of this phase was to predict classes from static images, for this reason, 2 of the letters from the alphabet were dropped since they require movement to sign (J, Z). This will be addressed and later iterations. 
+
+Pulling a random sampling from our data set 
+
+
+
+
 
 ** A COUPLE SAMPLES OF THE DATA** <br>
 ![A](images/a_asl_samp.png)<br>
