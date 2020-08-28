@@ -42,7 +42,7 @@ def build_compile_cnn():
     model.add(keras.layers.Dropout(.15))
 
     model.add(keras.layers.Flatten())
-    model.add(keras.layers.Dense(24, activation='sigmoid'))
+    model.add(keras.layers.Dense(24, activation='softmax'))
 
     model.compile(optimizer='adam',
               loss='categorical_crossentropy',
@@ -65,7 +65,7 @@ if __name__ == '__main__':
   train_path = '../data/train'
   valid_path = '../data/valid'
   test_path = '../data/test'
-  epochs = 1
+  epochs = 5
   batch_size=500
 
   train = data_gen_object(train_path, batch_size)

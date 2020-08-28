@@ -83,9 +83,15 @@ Using `keras.models.Sequential()` and data preprocessed to grayscale, resizing, 
 See `initial_model.py` for complete details of the model. 
 
 ### Confusion Matrix:
+The initial results of an **~98%** prediction accuracy were surprising given the simplicity of the CNN model. Upon closer inspection we can see the model struggles to classify classes:
+
+A, E, M, N, S, & T
+
+These results are not surprising as all of these letters have very similar edge/hand structure, with the exception of the positioning of thumb, index, or middle finger. These changes are very slight and can be easily misclassified given too small a dataset. 
+
 ![cm](images/confusion_matrix.png)
 
-#### Sandbox_model:
+### Sandbox_model:
 
 Using `keras.models.Sequential()` and data transformed with grayscale, resizing, and rescaling and augmented, I trained my first model with 2 Conv2D hidden layers. 
 
