@@ -57,7 +57,7 @@ Each image takes the shape of 200 x 200x 3.
 
 ![color_img](images/full_img.png)
 
-After inspecting the majority of the dataset, I identified images displaing very similar form, lighting, and hand positioning. This raised some intial concerns about the possibility of overfitting my models once I began training. Aside from these concerns, several images were miss labeled and removed. This accounted for approximately 20 images with little concern to overall performance of the model. 
+After inspecting the majority of the dataset, I identified images displaying very similar form, lighting, and hand positioning. This raised some intial concerns about the possibility of overfitting my models once I began training. Aside from these concerns, several images were miss labeled and removed. This accounted for approximately 20 images with little concern to overall performance of the model. 
 
 Once the file directory was in order the next step was to being data preprocessing and transformation. Color is not considered an important feature for predictive accuracy for this phase, and so, the first step was to convery all images in real-time to grayscale. Also, we resized and rescaled all the images, 100 x 100 and 1/255, respectively. 
 
@@ -78,7 +78,7 @@ A sample of the resulting transformations:
 
 ### Init_model:
 
-Using `keras.models.Sequential()` and data preprocessed to grayscale, resizing, and rescaling but **not** augmented, I trained my first model with 2 Conv2D hidden layers. 
+Using `keras.models.Sequential()` and data preprocessed to grayscale, resizing, and rescaling but **not** augmented, I trained my **first** model with 2 Conv2D hidden layers. 
 
 See `initial_model.py` for complete details of the model. 
 
@@ -93,13 +93,42 @@ These results are not surprising as all of these letters have very similar edge/
 
 ### Sandbox_model:
 
-Using `keras.models.Sequential()` and data transformed with grayscale, resizing, and rescaling and augmented, I trained my first model with 2 Conv2D hidden layers. 
+Using `keras.models.Sequential()` and data transformed with grayscale, resizing, and rescaling and augmented, I trained my **second** model with 2 Conv2D hidden layers. 
 
 See `sandbox_model.py` for complete details of the model. 
 
 ### Confusion Matrix:
+The second model suffered in predictive ability after training with the additional synthetic data. Model accuracy dropped by 4% to **94%**. The more synthetic data I fed the model the lower it's predictive abilities. 
+
+These results are a clear indication of our first model overfitting to our training data and confirming the initial concerns addressed above. Where data diversity seemed very minimal. 
+
+In this model, we see similar missclassfied classes, with sharp decrease in S & T as well as M & N. 
+
 ![cms](images/confusion_matrix_sandbox.png)
 
+#### Sample of predictions
+
+Here we can see a sub sample of ASL signs that were missclassified.
+
+![pred_samp](images/predictions.png)
+
+
+## What's next...
+- [x] Collect different datasets/more complex
+    - [] Static images that contain person in image
+    - [x] Video dataset (MSFT ASL Data) 
+- [] Train new more complex CNN models with different data
+- [] Develop independent data collection
+    - [] develop external site and/or app to share with close friends and family to have them collect new data based off displayed words and have a gamification process of the training.
+    - [] word shown on screen, person signs the word, can do as many of these as they'd like. 
+    - [] data validate: option to validate others signs. 
+    - create a positive feedback loop in which data fed in allows user to gain incentives. 
+- [] understand edge computing or train remote model and sent predictions back (i.e. google keyboard)
+- [] Search for people that would like to contribute
+
+
+
+<!--
 
 ** A COUPLE SAMPLES OF THE DATA** <br>
 ![A](images/a_asl_samp.png)<br>
