@@ -8,6 +8,9 @@ from skimage.io import imread
 from glob import glob
 import itertools
 
+from skimage.io import imread
+from skimage.color import rgb2gray
+
 
 def ImagetoArray(list_img_paths):
     return np.array([rgb2gray(imread(i)) for i in list_img_paths])
