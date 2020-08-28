@@ -104,10 +104,10 @@ def plotMissedClasses(images_path, predicted_values, true_values):
   Returns:
   Plots and saves each image with True Class & Predicted Class identified. 
   """
-    image_array = ImagetoArray(images_path) #creates an array of arrays where each image path is converted to grayscale number array. 
-    for num, (img, pred, true) in enumerate(zip(image_array, predicted_values, true_values)):
-        fig, ax = plt.subplots()
-        ax.set_title(f'Class: {true}, Predicted: {pred}')
-        ax.imshow(img)
-        ax.axis('off')
-        plt.savefig(f'../images/{true}{pred}{num}.png')
+  image_array = ImagetoArray(images_path) #creates an array of arrays where each image path is converted to grayscale number array. 
+  for num, (img, pred, true) in enumerate(zip(image_array, predicted_values, true_values)):
+      fig, ax = plt.subplots()
+      ax.set_title(f'Class: {true}, Predicted: {pred}')
+      ax.imshow(img)
+      ax.axis('off')
+      plt.savefig(f'../images/{true}{pred}{num}.png')

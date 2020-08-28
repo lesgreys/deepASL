@@ -33,9 +33,6 @@ def get_imlist(path,end_char):
     all png images in a directory. """
 
   return [os.path.join(path,f) for f in os.listdir(path) if f.endswith(str(end_char))]
-
-def ImagetoArray(list_img_paths):
-    return np.array([rgb2gray(imread(i)) for i in list_img_paths])
     
 def arrMissedClass(main_dir, test_directory, test_true, test_predicted, class_dict):
   #get y_true array compare with y_pred array and return array of indexes 
@@ -48,7 +45,7 @@ def arrMissedClass(main_dir, test_directory, test_true, test_predicted, class_di
     missclassdir = np.array([str(main_dir) + test_directory[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
     misspredarr = np.array([pred_arr[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
     misstruearr = np.array([true_arr[i] for i in np.argwhere(test_true!=test_predicted).flatten()])
-  return missclassdir, misspredarr, misstruearr
+    return missclassdir, misspredarr, misstruearr
 
 if __name__ == '__main__':
 

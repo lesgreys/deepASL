@@ -65,7 +65,7 @@ if __name__ == '__main__':
   train_path = '../data/train'
   valid_path = '../data/valid'
   test_path = '../data/test'
-  epochs = 5
+  epochs = 1
   batch_size=500
 
   train = data_gen_object(train_path, batch_size)
@@ -76,14 +76,15 @@ if __name__ == '__main__':
   init_model.fit(train,epochs=epochs,validation_data=valid)
 
 
-  score = init_model.evaluate(test, verbose=0)
+  score = init_model.evaluate(test, verbose=1)
   print('Test score:', score[0])
   print('Test accuracy:', score[1])
 
-  # y_pred, y_true = predict(init_model, test)
+  # y_pred, y_true = predict(history, test)
 
   # cm = confusion_matrix(y_true,y_pred)
 
-  # plot_confusion_matrix(cm, test.class_indices.keys())
+  # plot_confusion_matrix(cm, test.class_indices.keys(), 'confusion_matrix2')
+
 
 # %%
