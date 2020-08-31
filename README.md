@@ -63,6 +63,8 @@ Once the file directory was in order the next step was to being data preprocessi
 
 The purpose for these decisions are normally to see how light we can train our models by passing in less "information", decreasing the complexity/work load of the model. As I iterate through theses processes, I can increase the information in attempts to increase predictive ability, if necessary. 
 
+**INSERT EXPLANATION: What do I mean by light? Display the differnce of 1 images that is "complex" vs "light".**
+
 Another extremely useful tool within the Tensorflow.Keras API is the ability to generate synthetic data with the `ImageDataGenerator()`. This allows me to create changes in my images that can naturally take place within the real world. The basic hyperparameters used for my data augmentation are as follows:
 
 * Random image rotation with range limit of 10 degrees.
