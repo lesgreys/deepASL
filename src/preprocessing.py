@@ -16,7 +16,7 @@ import math
 class dataLoader():
     pass
 
-def fileName(df, label):
+def fileName(df, label_name, main_name):
 
     """
     create column for unique file names to save videos
@@ -31,6 +31,7 @@ def fileName(df, label):
     for i in range(len(df.index)):
         df['filename'][i] = str(df.index[i])+'-'+str(df.label[i])
     return df
+
 
 def pullURL(urlList, fNamelist, className, main_dir):
     """
@@ -60,6 +61,16 @@ def pullURL(urlList, fNamelist, className, main_dir):
         except:
             continue
 
+def get_vidDirectory(main_path, end_char):
+    lst = []
+    for class_ in os.listdir(str(main_path)):
+        if class_.endswith('Store'):
+            continue
+        else:
+            for f in os.listdir(f'{main_path}{class_}/'):
+                if f.endswith(str(end_char)):
+                    lst.append(os.path.join(f'{main_path}{class_}',f))
+    return lst
 #function to pull in video COMPLETE
     #pass in url with youtube library
 
