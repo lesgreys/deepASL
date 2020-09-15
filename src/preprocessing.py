@@ -62,7 +62,7 @@ def pullURL(urlList, fNamelist, className, main_dir):
         except:
             continue
 
-def get_vidDirectory(main_path, end_char):
+def get_vidDirectory(main_dir, end_char):
     """ 
     create list of all the end file directory for every class
 
@@ -74,22 +74,17 @@ def get_vidDirectory(main_path, end_char):
         list of all file directory
     """
     lst = []
-    for class_ in os.listdir(str(main_path)):
+    for class_ in os.listdir(str(main_dir)):
         if class_.endswith('Store'):
             continue
         else:
-            for f in os.listdir(f'{main_path}{class_}/'):
+            for f in os.listdir(f'{main_dir}{class_}/'):
                 if f.endswith(str(end_char)):
-                    lst.append(os.path.join(f'{main_path}{class_}',f))
+                    lst.append(os.path.join(f'{main_dir}{class_}',f))
     return lst
 
 
 def subClip(main_dir, df):
-    #function for subclip; identifing if class is imbedded into larger video 
-    #if yes process video through clip (moviepy library) to clip exact portion for class
-        #parameters will be start_time, end_time, video_path
-    #if no proceed extract frames from video
-        #break
     """ 
     Identifies which vidoes require subclipping and cross-references with dataframe.
     Also deletes original video that has additional ASL. 
@@ -104,7 +99,6 @@ def subClip(main_dir, df):
     for class_ in os.listdir(str(main_dir)):
         if not class_.endswith('Store'):
             os.chdir(str(main_dir)+str(class_))
-            !pwd
             for fname in os.listdir(str(main_dir)+str(class_)):
                 if not fname.endswith('Store'):
                     x = df[df.filename == str(fname)]
@@ -113,12 +107,38 @@ def subClip(main_dir, df):
                     if not start == 0:
                         VideoFileClip(str(os.path.join(f'{main_dir}{class_}',fname)), audio=False).subclip(float(start),float(end)).write_videofile('C-'+str(fname))
                         os.remove(str(fname))
+                        os.rename('C-'+str(fname), str(fname))
                     else:
                         continue
                 else:
                     continue
         else:
             continue
+
+
+def extractFrames(main_dir, df, fps=25):
+    for class_ in os.listdir(str(main_dir)):
+        if not class_.endswith('Store'):
+            os.chdir(str(main_dir)+str(class_))
+            for fname in os.listdir(str(main_dir)+str(class_)):
+                if not fname.endswith('Store'):
+                    print(fname)
+                    x = train[train.filename == str(fname)]
+                    fps = x.fps.values[0]
+                    count = 0
+                    cap = cv2.VideoCapture(f'{fname}')   # capturing the video from the given path
+                    frameRate = cap.get(25) #frame rate
+                    x=1
+                    while(cap.isOpened()):
+                        frameId = cap.get(1) #current frame number
+                        ret, frame = cap.read()
+                        if (ret != True):
+                            break
+                        if (frameId % math.floor(frameRate) == 0):
+                            # storing the frames in a new folder named train_1
+                            filename = str(fname.split('.')[0]) + "%d.jpg" % count;count+=1
+                            cv2.imwrite(filename, frame)
+                    cap.release()
 #function to pull in video COMPLETE
     #pass in url with youtube library
 
