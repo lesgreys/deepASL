@@ -34,21 +34,18 @@ def dfmakeColumns(df):
     return df
 
 
-def pullURL(urlList, fNamelist, className, main_dir):
+def pullURL(main_dir, df):
     """
     save all videos locally into relative directory and assign unique filename
 
     Parameters:
-        urlList (list/array): url of all videos to download
-        fNamelist (list/array): unique file names for each video
-        class (list/array): class name for each subdirectory
-        main_dir (string): main directory path where each video
+        main_dir(string): main directory path for root folder where subfolders are all the classes
+        df(pandas Dataframe): dataframe that holds all features of each video
     Returns:
         None
     """
 
-    
-    for url, fname, class_ in zip(urlList, fNamelist, className):
+    for url, fname, class_ in zip(df.url, df.filename, df.text):
         os.chdir(str(main_dir))
         try:
             vid = YouTube(str(url)).streams.first()
@@ -97,48 +94,53 @@ def subClip(main_dir, df):
         None
     """
     for class_ in os.listdir(str(main_dir)):
-        if not class_.endswith('Store'):
-            os.chdir(str(main_dir)+str(class_))
-            for fname in os.listdir(str(main_dir)+str(class_)):
-                if not fname.endswith('Store'):
-                    x = df[df.filename == str(fname)]
-                    start = x.start_time.values[0]
-                    end = x.end_time.values[0]
-                    if not start == 0:
-                        VideoFileClip(str(os.path.join(f'{main_dir}{class_}',fname)), audio=False).subclip(float(start),float(end)).write_videofile('C-'+str(fname))
-                        os.remove(str(fname))
-                        os.rename('C-'+str(fname), str(fname))
+        try:
+            if not class_.endswith('Store'):
+                os.chdir(str(main_dir)+str(class_))
+                for fname in os.listdir(str(main_dir)+str(class_)):
+                    if not fname.endswith('Store'):
+                        x = df[df.filename == str(fname)]
+                        start = x.start_time.values[0]
+                        end = x.end_time.values[0]
+                        if not start == 0:
+                            VideoFileClip(str(os.path.join(f'{main_dir}{class_}',fname)), audio=False).subclip(float(start),float(end)).write_videofile('C-'+str(fname))
+                            os.remove(str(fname))
+                            os.rename('C-'+str(fname), str(fname))
+                        else:
+                            continue
                     else:
                         continue
-                else:
-                    continue
         else:
             continue
 
+def extractFrames(main_dir, sec=0, fRate=.1):
 
-def extractFrames(main_dir, df, fps=25):
     for class_ in os.listdir(str(main_dir)):
-        if not class_.endswith('Store'):
-            os.chdir(str(main_dir)+str(class_))
-            for fname in os.listdir(str(main_dir)+str(class_)):
-                if not fname.endswith('Store'):
-                    print(fname)
-                    x = train[train.filename == str(fname)]
-                    fps = x.fps.values[0]
-                    count = 0
-                    cap = cv2.VideoCapture(f'{fname}')   # capturing the video from the given path
-                    frameRate = cap.get(25) #frame rate
-                    x=1
-                    while(cap.isOpened()):
-                        frameId = cap.get(1) #current frame number
-                        ret, frame = cap.read()
-                        if (ret != True):
-                            break
-                        if (frameId % math.floor(frameRate) == 0):
-                            # storing the frames in a new folder named train_1
-                            filename = str(fname.split('.')[0]) + "%d.jpg" % count;count+=1
-                            cv2.imwrite(filename, frame)
-                    cap.release()
+        try:
+            if not class_.endswith('Store'):
+                os.chdir(str(main_dir)+str(class_))
+                for fname in os.listdir(str(main_dir)+str(class_)):
+                    if not fname.endswith('Store'):
+                        vidcap = cv2.VideoCapture(str(fname))
+                        def getFrame(sec):
+                            vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
+                            hasFrames,image = vidcap.read()
+                            if hasFrames:
+                                cv2.imwrite(str(fname.split('.')[0])+ '-' + str(count)+".jpg", image)     # save frame as JPG file
+                            return hasFrames
+                        sec = 0
+                        frameRate = fRate #//it will capture image in each 0.5 second
+                        count=1
+                        success = getFrame(sec)
+                        while success:
+                            count = count + 1
+                            sec = sec + frameRate
+                            sec = round(sec, 2)
+                            success = getFrame(sec)
+        except:
+            continue
+
+
 #function to pull in video COMPLETE
     #pass in url with youtube library
 
@@ -158,5 +160,38 @@ def extractFrames(main_dir, df, fps=25):
         #current frame rate
         #path of video 
 
+
+# OPENCV FUNCTIONS FOR FUTURE USE
+
+"""
+using openCV optical flow for 
+=====
+Optical flow is the pattern of apparent motion of image objects between two consecutive frames caused 
+by the movemement of object or camera. It is 2D vector field where each vector is a displacement vector sh
+
+link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_video/py_lucas_kanade/py_lucas_kanade.html?highlight=videocapture%20show%20frames
+=====
+"""
+
+"""
+opencv FaceDetection
+=====
+Facial detection
+
+link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html#face-detection
+=====
+"""
+
+
+"""
+opencv Background subtraction
+=====
+Background subtraction is a major preprocessing steps in many vision based applications. 
+For example, consider the cases like visitor counter where a static camera takes the number of 
+visitors entering or leaving the room, or a traffic camera extracting information about the vehicles etc. 
+
+link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_video/py_bg_subtraction/py_bg_subtraction.html?highlight=videocapture%20show%20frames
+=====
+"""
 if __name__ == __main__:
     pass
