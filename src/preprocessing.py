@@ -16,7 +16,7 @@ import math
 class dataLoader():
     pass
 
-def fileName(df, label_name, main_name):
+def dfmakeColumns(df):
 
     """
     create column for unique file names to save videos
@@ -30,6 +30,7 @@ def fileName(df, label_name, main_name):
     """
     for i in range(len(df.index)):
         df['filename'][i] = str(df.index[i])+'-'+str(df.label[i])
+        df['path'][i] = str(df.text)+'/'+str(df.index[i])+'-'+str(df.label[i])+'.mp4'
     return df
 
 
@@ -62,6 +63,16 @@ def pullURL(urlList, fNamelist, className, main_dir):
             continue
 
 def get_vidDirectory(main_path, end_char):
+    """ 
+    create list of all the end file directory for every class
+
+    Parameters:
+        main_path(string): main directory path for root folder
+        end_char(string): desired file extension the file name ends
+
+    Returns:
+        list of all file directory
+    """
     lst = []
     for class_ in os.listdir(str(main_path)):
         if class_.endswith('Store'):
@@ -71,6 +82,43 @@ def get_vidDirectory(main_path, end_char):
                 if f.endswith(str(end_char)):
                     lst.append(os.path.join(f'{main_path}{class_}',f))
     return lst
+
+
+def subClip(main_dir, df):
+    #function for subclip; identifing if class is imbedded into larger video 
+    #if yes process video through clip (moviepy library) to clip exact portion for class
+        #parameters will be start_time, end_time, video_path
+    #if no proceed extract frames from video
+        #break
+    """ 
+    Identifies which vidoes require subclipping and cross-references with dataframe.
+    Also deletes original video that has additional ASL. 
+
+    Parameters:
+        main_dir(string): main directory path for root folder where subfolders are all the classes
+        df(pandas Dataframe): dataframe that holds all features of each video
+
+    Returns:
+        None
+    """
+    for class_ in os.listdir(str(main_dir)):
+        if not class_.endswith('Store'):
+            os.chdir(str(main_dir)+str(class_))
+            !pwd
+            for fname in os.listdir(str(main_dir)+str(class_)):
+                if not fname.endswith('Store'):
+                    x = df[df.filename == str(fname)]
+                    start = x.start_time.values[0]
+                    end = x.end_time.values[0]
+                    if not start == 0:
+                        VideoFileClip(str(os.path.join(f'{main_dir}{class_}',fname)), audio=False).subclip(float(start),float(end)).write_videofile('C-'+str(fname))
+                        os.remove(str(fname))
+                    else:
+                        continue
+                else:
+                    continue
+        else:
+            continue
 #function to pull in video COMPLETE
     #pass in url with youtube library
 
