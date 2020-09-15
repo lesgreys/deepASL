@@ -140,27 +140,6 @@ def extractFrames(main_dir, sec=0, fRate=.1):
         except:
             continue
 
-
-#function to pull in video COMPLETE
-    #pass in url with youtube library
-
-#append local path to dataframe
-
-#function to organize each video with class name and subdirectory
-
-#function for subclip; identifing if class is imbedded into larger video 
-    #if yes process video through clip (moviepy library) to clip exact portion for class
-        #parameters will be start_time, end_time, video_path
-    #if no proceed extract frames from video
-        #break
-
-#function to extract frames from videos
-    # parameters to pass in:
-        #desired captured frame rate 
-        #current frame rate
-        #path of video 
-
-
 # OPENCV FUNCTIONS FOR FUTURE USE
 
 """
