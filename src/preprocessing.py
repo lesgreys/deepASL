@@ -105,7 +105,9 @@ def subClip(main_dir, df):
                             continue
                     else:
                         continue
-        else:
+            else:
+                continue
+        except:
             continue
 
 def extractFrames(main_dir, sec=0, fRate=.1):
@@ -167,5 +169,5 @@ visitors entering or leaving the room, or a traffic camera extracting informatio
 link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_video/py_bg_subtraction/py_bg_subtraction.html?highlight=videocapture%20show%20frames
 =====
 """
-if __name__ == __main__:
+if __name__ == '__main__':
     pass
