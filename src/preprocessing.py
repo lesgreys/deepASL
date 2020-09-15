@@ -2,19 +2,11 @@
 import json
 import pandas as pd
 import numpy as np
-
-import urllib
-from bs4 import BeautifulSoup
 from pytube import YouTube
 import cv2
 import os
-import glob
-from tqdm import tqdm
-import math
+from moviepy.editor import *
 
-
-class dataLoader():
-    pass
 
 def dfmakeColumns(df):
 
@@ -72,12 +64,15 @@ def get_vidDirectory(main_dir, end_char):
     """
     lst = []
     for class_ in os.listdir(str(main_dir)):
-        if class_.endswith('Store'):
+        try:
+            if class_.endswith('Store'):
+                continue
+            else:
+                for f in os.listdir(f'{main_dir}{class_}/'):
+                    if f.endswith(str(end_char)):
+                        lst.append(os.path.join(f'{main_dir}{class_}',f))
+        except:
             continue
-        else:
-            for f in os.listdir(f'{main_dir}{class_}/'):
-                if f.endswith(str(end_char)):
-                    lst.append(os.path.join(f'{main_dir}{class_}',f))
     return lst
 
 
