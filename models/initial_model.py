@@ -9,7 +9,7 @@ from tensorflow.keras.metrics  import categorical_crossentropy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
-from plot_helper import plot_confusion_matrix
+from utils.plot_helper import plot_confusion_matrix
 from tensorflow.keras.callbacks import History
 
 import matplotlib.pyplot as plt
