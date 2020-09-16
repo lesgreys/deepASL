@@ -1,4 +1,4 @@
-# The ASL Project
+# deepASL
 Deploy deep learning technologies in computer vision to bridge the communication gap between the deaf and everyone else. This project contains several phases with long-term goals for real-world deployment. The intent is to have each subsequent phase build upon the previous phase. 
 
 ![helloASL](images/helloasl2.jpg)
