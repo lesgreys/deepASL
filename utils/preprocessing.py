@@ -20,9 +20,13 @@ def dfmakeColumns(df):
     Returns:
     New dataframe with new filename column
     """
+    df['filename'] = ''
+    df['path'] = ''
+    df = df.reset_index()
     for i in range(len(df.index)):
-        df['filename'][i] = str(df.index[i])+'-'+str(df.label[i])
-        df['path'][i] = str(df.text)+'/'+str(df.index[i])+'-'+str(df.label[i])+'.mp4'
+        df['filename'][i] = str(df['index'][i])+'-'+str(df['label'][i])
+        df['path'][i] = str(df.text[i])+'/'+str(df['index'][i])+'-'+str(df['label'][i])+'.mp4'
+    df = df.set_index('index')
     return df
 
 
@@ -126,7 +130,7 @@ def extractFrames(main_dir, sec=0, fRate=.1):
                                 cv2.imwrite(str(fname.split('.')[0])+ '-' + str(count)+".jpg", image)     # save frame as JPG file
                             return hasFrames
                         sec = 0
-                        frameRate = fRate #//it will capture image in each 0.5 second
+                        frameRate = fRate 
                         count=1
                         success = getFrame(sec)
                         while success:
@@ -183,8 +187,23 @@ link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_vi
 =====
 """
 if __name__ == '__main__':
-    #loop for all functions above wrapped with below:
-    try:
-    except: 
+    train_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_train.json')
+    test_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_test.json')
+    valid_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_val.json')
     
-    pass
+    main_dir = '/home/ubuntu/000_homebase/deepASL/dataset'
+    dataframes = [train_df, test_df, valid_df]
+
+    #loop for all functions above wrapped with below:
+    
+    for df in dataframes:
+        try:
+            init_df = df.loc[(df['label'] == 1) | (df['label'] == 3) ]
+            new_df = dfmakeColumns(init_df)
+            pullURL(main_dir, new_df)
+            subClip(main_dir, new_df)
+            extractFrames(main_dir)
+
+        except: 
+            continue
+    
