@@ -1,12 +1,17 @@
-
 import json
 import pandas as pd
 import numpy as np
-from pytube import YouTube
 import cv2
 import os
 from moviepy.editor import *
+from pytube import YouTube
 
+def load_json(path):
+    with open(str(path)) as datafile:
+        data = json.load(datafile)
+    dataframe = pd.DataFrame(data)
+
+    return dataframe
 
 def dfmakeColumns(df):
 
@@ -98,23 +103,19 @@ def subClip(main_dir, df):
                 os.chdir(str(main_dir)+str(class_))
                 for fname in os.listdir(str(main_dir)+str(class_)):
                     if not fname.endswith('Store'):
-                        x = df[df.filename == str(fname)]
+                        print(fname)
+                        x = df[df.filename == str(fname.split('.')[0])]
                         start = x.start_time.values[0]
                         end = x.end_time.values[0]
+                        print(start,end)
                         if not start == 0:
                             VideoFileClip(str(os.path.join(f'{main_dir}{class_}',fname)), audio=False).subclip(float(start),float(end)).write_videofile('C-'+str(fname))
                             os.remove(str(fname))
                             os.rename('C-'+str(fname), str(fname))
-                        else:
-                            continue
-                    else:
-                        continue
-            else:
-                continue
         except:
             continue
 
-def extractFrames(main_dir, sec=0, fRate=.1):
+def extractFrames(main_dir, sec=0, fRate=.2):
 
     for class_ in os.listdir(str(main_dir)):
         try:
@@ -141,18 +142,18 @@ def extractFrames(main_dir, sec=0, fRate=.1):
         except:
             continue
 
-def apply_bg_subtraction(video_path):
-    fg_bg = cv2.createBackgroundSubtractorMOG2()
-    video = imageio.get_reader(video_path, 'ffmpeg')
-    for i in range(len(video)):
-        frame = video.get_data(i)
-        fg_mask = fg_bg.apply(frame)
-        cv2.imshow("bg_subtraction", fg_mask)
-        # =============================
-        # Press Q on keyboard to  exit
-        # =============================
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
+# def apply_bg_subtraction(video_path):
+#     fg_bg = cv2.createBackgroundSubtractorMOG2()
+#     video = imageio.get_reader(video_path, 'ffmpeg')
+#     for i in range(len(video)):
+#         frame = video.get_data(i)
+#         fg_mask = fg_bg.apply(frame)
+#         cv2.imshow("bg_subtraction", fg_mask)
+#         # =============================
+#         # Press Q on keyboard to  exit
+#         # =============================
+#         if cv2.waitKey(25) & 0xFF == ord('q'):
+#             break
 
 # OPENCV FUNCTIONS FOR FUTURE USE
 
@@ -187,23 +188,33 @@ link: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_vi
 =====
 """
 if __name__ == '__main__':
-    train_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_train.json')
-    test_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_test.json')
-    valid_df = pd.read_json('/home/ubuntu/000_homebase/deepASL/src/MSASL_val.json')
+
+    base = '/home/ubuntu/000_homebase/'
+
+    train_df = str(base) + 'deepASL/src/MSASL_train.json'
+    test_df = str(base) + 'deepASL/src/MSASL_test.json'
+    valid_df = str(base) + 'deepASL/src/MSASL_val.json'
     
-    main_dir = '/home/ubuntu/000_homebase/deepASL/dataset'
-    dataframes = [train_df, test_df, valid_df]
+    train_dir = base + 'deepASL/dataset/train/'
+    test_dir = base + 'deepASL/dataset/test/'
+    valid_dir = base + 'deepASL/dataset/valid/'
+
+    main_dir = [train_dir, test_dir, valid_dir]
+    src_paths = [train_df, test_df, valid_df]
+    dataframes = []
+
+    for path in src_paths:
+        dataframes.append(load_json(path))
 
     #loop for all functions above wrapped with below:
     
-    for df in dataframes:
-        try:
-            init_df = df.loc[(df['label'] == 1) | (df['label'] == 3) ]
-            new_df = dfmakeColumns(init_df)
-            pullURL(main_dir, new_df)
-            subClip(main_dir, new_df)
-            extractFrames(main_dir)
+    for main, df in zip(main_dir, dataframes):
 
+        try:
+            init_df = df.loc[(df['label'] == 1) | (df['label'] == 3)]
+            new_df = dfmakeColumns(init_df)
+            pullURL(main, new_df)
+            subClip(main, new_df)
+            extractFrames(main, fRate=.1)
         except: 
             continue
-    
