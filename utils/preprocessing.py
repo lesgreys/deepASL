@@ -5,6 +5,7 @@ import cv2
 import os
 from moviepy.editor import *
 from pytube import YouTube
+import time
 
 def load_json(path):
     with open(str(path)) as datafile:
@@ -49,15 +50,17 @@ def pullURL(main_dir, df):
     for url, fname, class_ in zip(df.url, df.filename, df.text):
         os.chdir(str(main_dir))
         try:
+            time.sleep(5)
             vid = YouTube(str(url)).streams.first()
             if os.path.isdir(str(class_)) is False:
-                 os.makedirs(str(class_))
-                 os.chdir(str(main_dir)+str(class_))
-                 vid.download(filename=fname)
+                    os.makedirs(str(class_))
+                    os.chdir(str(main_dir)+str(class_))
+                    vid.download(filename=fname)
             else:    
                 os.chdir(str(main_dir)+str(class_))
                 vid.download(filename=fname)
         except:
+            print(f'url request exception/{url}')
             continue
 
 def getDirectory(main_dir, end_char):
@@ -113,6 +116,7 @@ def subClip(main_dir, df):
                             os.remove(str(fname))
                             os.rename('C-'+str(fname), str(fname))
         except:
+            print('subclip exception')
             continue
 
 def extractFrames(main_dir, sec=0, fRate=.2):
@@ -140,6 +144,7 @@ def extractFrames(main_dir, sec=0, fRate=.2):
                             sec = round(sec, 2)
                             success = getFrame(sec)
         except:
+            print('extract frames exception')
             continue
 
 # def apply_bg_subtraction(video_path):
@@ -199,8 +204,8 @@ if __name__ == '__main__':
     test_dir = base + 'deepASL/dataset/test/'
     valid_dir = base + 'deepASL/dataset/valid/'
 
-    main_dir = [train_dir, test_dir, valid_dir]
-    src_paths = [train_df, test_df, valid_df]
+    main_dir = [train_dir] #train_dir, test_dir, valid_dir
+    src_paths = [train_df] #train_df, test_df, valid_df
     dataframes = []
 
     for path in src_paths:
@@ -211,10 +216,12 @@ if __name__ == '__main__':
     for main, df in zip(main_dir, dataframes):
 
         try:
-            init_df = df.loc[(df['label'] == 1) | (df['label'] == 3)]
+            # init_df = df.loc[(df['label'] == 1) | (df['label'] == 3)]
+            init_df = df.loc[(df['label'] == 2) | (df['label'] == 4)]
             new_df = dfmakeColumns(init_df)
             pullURL(main, new_df)
             subClip(main, new_df)
             extractFrames(main, fRate=.1)
         except: 
+            print('main loop exception')
             continue
