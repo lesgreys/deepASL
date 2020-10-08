@@ -8,6 +8,30 @@ Deploy deep learning technologies in computer vision to bridge the communication
 
 **TL;DR**
 
+**deepASLearning**
+**Phase III (current):** Developing UI/UX for data collection & implement spatial & temporal layers for ensemble model.
+
+**Phase II:** My vision was to understand and develop deep learning models and how they can be used in Sign Language Recognition (SLR).
+
+Researched multiple published articles to identify the different characteristics required to implement a strong machine learning model for SLR, addressing feature extraction, spatial, and temporal structure.
+* Sourced MS-ASL’s publicly available videos using pytube API to connect with YouTube and identify over 16k videos and 1000 different classes.
+* Cross-ed referenced downloaded videos with metadata to reduce the number of classes, subclipping continuous videos, and extracting frames using OpenCV (4 classes, 107 videos, 8k images).
+* Used Tensorflow Keras to develop two machine learning models, a simple 2-layer model and transfer-learning ResNet50-layer model.
+* The simple 2-layer model performed well against a previous dataset, once used against the new dataset, the model was slightly better than random.
+* Transfer learning ResNet50 model did very poorly in comparison.
+* Overall, ASL datasets are sparse and of very low quality, I believe creating an ASL data collection process will ultimately aid in developing better machine learning models for the deaf community.
+
+**Phase I:** Understanding how to create CNNs and how they can be used to classify images on Sign Language.
+* Researched how CNN structures identify features in images and familiarize myself with Tensorflow Keras library.
+* Researched how Tensorflow Keras library implements data preprocessing and data augmentation.
+* Sourced over 7k images of the ASL alphabet to train a CNN model.
+* Did image preprocessing (resizing, rescaling, grayscale).
+* Implemented image augmentation to provide additional data in the natural occurrences of ASL.
+* Developed a 2 layer CNN model to train with our augmented and non-augmented data.
+* Compared the performance of the two models and reviewed results.
+* Continued research into phase two.
+
+
 
 ### Why ASL
 
